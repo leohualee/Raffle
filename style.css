@@ -1,0 +1,145 @@
+body {
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    background-color: #f4f2e6; /* 柔和的米白色背景 */
+    color: #333;
+    min-height: 100vh;
+    margin: 0;
+    
+    /* 使用 Flexbox 將內容水平和垂直置中 */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* 確保所有元素都使用粗體字重 */
+* {
+    font-weight: bold;
+}
+
+.container {
+    background-color: #ffffff;
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+    width: 90%;
+    max-width: 500px;
+    text-align: left; /* 容器內的文字靠左對齊 */
+}
+
+h1 {
+    font-size: 2.2rem;
+    font-weight: 300; /* 讓標題保留較細的字重，維持文青風格 */
+    margin-bottom: 20px;
+    color: #555;
+    text-align: center; /* 讓標題本身置中 */
+}
+
+.input-section {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-bottom: 25px;
+}
+
+#nameList {
+    width: 100%;
+    height: 120px;
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-family: inherit;
+    font-size: 1rem;
+    resize: vertical;
+}
+
+.quick-add {
+    display: flex;
+    gap: 10px;
+}
+
+#quickAddCount {
+    flex-grow: 1;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-family: inherit;
+    font-size: 1rem;
+}
+
+.button-group {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 25px;
+}
+
+button {
+    padding: 12px 25px;
+    border: none;
+    border-radius: 25px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+#drawBtn {
+    background-color: #6a8e7a; /* 綠色系按鈕 */
+    color: #ffffff;
+}
+
+#drawBtn:hover {
+    background-color: #5a7d68;
+    transform: translateY(-2px);
+}
+
+#resetBtn, #quickAddBtn {
+    background-color: #e0e0e0;
+    color: #555;
+}
+
+#resetBtn:hover, #quickAddBtn:hover {
+    background-color: #d0d0d0;
+    transform: translateY(-2px);
+}
+
+.result-box {
+    background-color: #f7f7f7;
+    padding: 20px;
+    border-radius: 10px;
+    margin-top: 20px;
+}
+
+#winnerName {
+    font-size: 2.5rem;
+    color: #4b6f63;
+    min-height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.5s ease-in-out;
+}
+
+.current-list-container {
+    margin-top: 30px;
+    text-align: left;
+}
+
+.current-list-container h3 {
+    margin-bottom: 10px;
+}
+
+#currentList {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+#currentList li {
+    background-color: #e8f0e5;
+    padding: 8px 15px;
+    border-radius: 20px;
+    font-size: 0.9rem;
+}

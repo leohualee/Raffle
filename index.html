@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>文青抽籤小程式</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>今天的幸運兒是...</h1>
+        <div class="input-section">
+            <textarea id="nameList" placeholder="輸入人名，每行一個&#10;例如：&#10;小明&#10;小華&#10;小美"></textarea>
+            <div class="quick-add">
+                <input type="number" id="quickAddCount" placeholder="或輸入人數，快速編號" min="1">
+                <button id="quickAddBtn">快速新增</button>
+            </div>
+        </div>
+        
+        <div class="button-group">
+            <button id="drawBtn">開始抽籤</button>
+            <button id="resetBtn">恢復名單</button>
+        </div>
+        
+        <div id="result" class="result-box">
+            <p id="winnerName">等待抽籤...</p>
+        </div>
+
+        <div class="current-list-container">
+            <h3>目前名單：</h3>
+            <ul id="currentList"></ul>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
