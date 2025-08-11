@@ -143,3 +143,46 @@ button {
     border-radius: 20px;
     font-size: 0.9rem;
 }
+
+/* 已移除名單的樣式 */
+.removed-list-container {
+    margin-top: 30px;
+    text-align: left;
+}
+
+.removed-list-container h3 {
+    margin-bottom: 10px;
+}
+
+#removedList {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+#removedList li {
+    background-color: #f7e8e5; /* 淺紅色背景，區別於目前名單 */
+    padding: 8px 15px;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+#removedList .restore-btn {
+    background: none;
+    border: none;
+    padding: 0;
+    margin-left: 5px;
+    font-size: 1rem;
+    cursor: pointer;
+    color: #a84646; /* 紅色，表示恢復動作 */
+}
+
+#removedList .restore-btn:hover {
+    color: #d11a1a;
+}
