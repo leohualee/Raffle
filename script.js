@@ -7,9 +7,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const resetBtn = document.getElementById('resetBtn');
     const winnerNameDisplay = document.getElementById('winnerName');
     const currentListUl = document.getElementById('currentList');
+    const removedListUl = document.getElementById('removedList'); // 新增：已移除名單的 ul
 
     let originalParticipants = []; // 儲存原始名單的陣列
     let participants = []; // 儲存所有參與者的陣列
+    let removedParticipants = []; // 新增：儲存被移除名單的陣列
 
     // 負責更新目前名單顯示的函式
     const updateCurrentListDisplay = () => {
@@ -25,16 +27,32 @@ document.addEventListener('DOMContentLoaded', () => {
                 currentListUl.appendChild(li);
             });
         }
+        updateRemovedListDisplay(); // 在更新目前名單時，也更新已移除名單
+    };
+
+    // 新增：負責更新已移除名單顯示的函式
+    const updateRemovedListDisplay = () => {
+        removedListUl.innerHTML = '';
+        if (removedParticipants.length === 0) {
+            removedListUl.innerHTML = '<li>無</li>';
+        } else {
+            removedListUl.innerHTML = '';
+            removedParticipants.forEach((name, index) => {
+                const li = document.createElement('li');
+                li.innerHTML = `
+                    <span>${name}</span>
+                    <button class="restore-btn" data-index="${index}">&#x27F2;</button>
+                `;
+                removedListUl.appendChild(li);
+            });
+        }
     };
 
     // 處理手動輸入人名或貼上名單的事件
     nameListTextarea.addEventListener('input', () => {
-        // 將文字框的內容拆成陣列，並過濾掉空行
         participants = nameListTextarea.value.split('\n').filter(name => name.trim() !== '');
-        
-        // 將目前名單複製一份給原始名單
         originalParticipants = [...participants];
-
+        removedParticipants = []; // 新增：重設時清空移除名單
         updateCurrentListDisplay();
     });
 
@@ -42,14 +60,12 @@ document.addEventListener('DOMContentLoaded', () => {
     quickAddBtn.addEventListener('click', () => {
         const count = parseInt(quickAddCountInput.value);
         if (count > 0) {
-            participants = []; // 清空舊名單
+            participants = [];
             for (let i = 1; i <= count; i++) {
                 participants.push(`編號 ${i}`);
             }
-            // 將目前名單複製一份給原始名單
             originalParticipants = [...participants];
-            
-            // 更新文字框內容
+            removedParticipants = []; // 新增：重設時清空移除名單
             nameListTextarea.value = participants.join('\n');
             updateCurrentListDisplay();
         } else {
@@ -64,28 +80,48 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
-        // 隨機選擇一個索引
         const randomIndex = Math.floor(Math.random() * participants.length);
         const winner = participants[randomIndex];
         
-        // 顯示抽籤結果
         winnerNameDisplay.textContent = winner;
         
-        // 暫時將抽到的人從名單中移除
+        // 修改：將移除的人放入 removedParticipants
         participants.splice(randomIndex, 1);
+        removedParticipants.push(winner);
         
-        // 更新顯示
         updateCurrentListDisplay();
     });
 
     // 處理重置按鈕的點擊事件
     resetBtn.addEventListener('click', () => {
-        // 將目前名單恢復成原始名單
-        participants = [...originalParticipants];
+        if (originalParticipants.length === 0) {
+            alert('目前沒有已備份的名單可供恢復！');
+            return;
+        }
         
-        winnerNameDisplay.textContent = '等待抽籤...'; // 重設結果顯示
-        updateCurrentListDisplay(); // 更新名單顯示
+        // 恢復名單並清空已移除名單
+        participants = [...originalParticipants];
+        removedParticipants = [];
+        
+        winnerNameDisplay.textContent = '等待抽籤...';
+        updateCurrentListDisplay();
         alert('名單已恢復，可以重新開始抽籤！');
+    });
+
+    // 新增：處理恢復按鈕的點擊事件
+    removedListUl.addEventListener('click', (event) => {
+        const target = event.target;
+        if (target.classList.contains('restore-btn')) {
+            const index = target.dataset.index;
+            const nameToRestore = removedParticipants.splice(index, 1)[0];
+            
+            // 將人名加回目前名單
+            participants.push(nameToRestore);
+            
+            // 更新顯示
+            updateCurrentListDisplay();
+            alert(`${nameToRestore} 已恢復到名單中！`);
+        }
     });
 
     // 初次載入時更新名單顯示
