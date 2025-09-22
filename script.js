@@ -80,16 +80,48 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
-        const randomIndex = Math.floor(Math.random() * participants.length);
-        const winner = participants[randomIndex];
+        const duration = 2500; // 動畫總時長（毫秒）
+        let startTime = Date.now();
         
-        winnerNameDisplay.textContent = winner;
+        // 禁用所有功能按鈕，避免重複操作
+        drawBtn.disabled = true;
+        resetBtn.disabled = true;
+        quickAddBtn.disabled = true;
+
+        function animate() {
+            const elapsedTime = Date.now() - startTime;
+            
+            // 隨機選取一個人名來顯示
+            const randomIndex = Math.floor(Math.random() * participants.length);
+            winnerNameDisplay.textContent = participants[randomIndex];
+            
+            // 如果動畫時間還沒到，繼續執行
+            if (elapsedTime < duration) {
+                requestAnimationFrame(animate);
+            } else {
+                // 動畫結束，選出最終贏家
+                const finalIndex = Math.floor(Math.random() * participants.length);
+                const winner = participants[finalIndex];
+                
+                // 顯示最終贏家
+                winnerNameDisplay.textContent = winner;
+                
+                // 將贏家從目前名單移除，並加入已移除名單
+                participants.splice(finalIndex, 1);
+                removedParticipants.push(winner);
+                
+                // 重新啟用所有功能按鈕
+                drawBtn.disabled = false;
+                resetBtn.disabled = false;
+                quickAddBtn.disabled = false;
+
+                // 更新名單顯示
+                updateCurrentListDisplay();
+            }
+        }
         
-        // 修改：將移除的人放入 removedParticipants
-        participants.splice(randomIndex, 1);
-        removedParticipants.push(winner);
-        
-        updateCurrentListDisplay();
+        // 開始動畫
+        animate();
     });
 
     // 處理重置按鈕的點擊事件
